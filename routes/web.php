@@ -1,10 +1,17 @@
 <?php
 
+use App\Http\Controllers\Auth\Social\GoogleController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::middleware("guest")->group(function()
+{
+    Route::get("/auth/google", [GoogleController::class, "redirect"])->name("google.redirect");
+    Route::get("/auth/google/redirect", [GoogleController::class, "callback"])->name("google.callback");
 });
 
 Route::get('/dashboard', function () {
